@@ -1,17 +1,33 @@
 #include "alarm.h"
 
-ALARM::ALARM()
+alarm::alarm(int buzzer_Pin, int LED_Pin)
 {
-
-    // this->buzz = new Buzzer(PinConfiguration::buzzerPin);
-    this->led = new LED(PinConfiguration::ardLED);
+    this->buzzer_Pin = buzzer_Pin;
+    this->LED_Pin = LED_Pin;
 }
-void ALARM::alarm(int level)
+void alarm::warning()
 {
-    tone(pin, sound_freq, on_delay);
-    digitalWrite(8, 1);
-    delay(on_delay);
-    noTone(pin);
-    digitalWrite(8, 0);
-    delay(on_delay);
+    this->counterValue = floor(this->desiredAlarmInterval / (2 * this->blinkInterval));
+    if (this->counterTime < this->counterValue)
+    {
+        digitalWrite(this->LED_Pin, HIGH);
+        delay(this->blinkInterval);
+        digitalWrite(this->LED_Pin, LOW);
+        delay(this->blinkInterval);
+        this->counterTime++;
+    }
+}
+void alarm::error()
+{
+    this->counterValue = floor(this->desiredAlarmInterval / (2 * this->blinkInterval));
+    if (this->counterTime < this->counterValue)
+    {
+        tone(this->buzzer_Pin, this->sound_freq, this->blinkInterval);
+        digitalWrite(this->LED_Pin, HIGH);
+        delay(this->blinkInterval);
+        noTone(this->buzzer_Pin);
+        digitalWrite(this->LED_Pin, LOW);
+        delay(this->blinkInterval);
+        this->counterTime++;
+    }
 }

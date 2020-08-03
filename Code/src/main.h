@@ -22,6 +22,7 @@
 #include <math.h>
 #include "DegreeTracker.h"
 #include "MotorController.h"
+#include "alarm.h"
 
 /* Global Objects */
 SysConfig *Global_SysConfig;
@@ -45,7 +46,7 @@ Potentiometer *IERatio;
 PressureSensor *PR;
 
 MotorController *motorController;
-
+alarm *Error;
 int table_RV[] = {300, 700};
 int table_RC[4];
 int table_IE[] = {1, 2, 3, 4};
@@ -54,7 +55,7 @@ volatile int timeStepValid = 0;
 
 float calcedLeftTime[420];
 float calcedLeftDegree[420];
-int   MotorSpeedActual[420];
+int MotorSpeedActual[420];
 float MotorPwm[420];
 
 int on_uSwithHitPC = 0;
