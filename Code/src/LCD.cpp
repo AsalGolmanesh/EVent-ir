@@ -108,7 +108,6 @@ void LCD::LCD_Logo()
     GLCD.DrawString(F("In/Ex Ratio: "), 3, 37);
     GLCD.DrawString(F("1 :"), 80, 37);
     GLCD.DrawString(F("PR (CmH2O) : "), 3, 54);
-    
 }
 
 void LCD::LCD_Menu(int tidalVolume, int respRate, int IEratio, float PR)
@@ -116,7 +115,7 @@ void LCD::LCD_Menu(int tidalVolume, int respRate, int IEratio, float PR)
 
     String *tidal_Vol = &(this->lastVol);
     String *resp_Rate = &(this->lastRate);
-    String *IE_ratio  = &(this->lastIE);
+    String *IE_ratio = &(this->lastIE);
     String *PR_Sensor = &(this->lastPR);
 
     String a = String(tidalVolume);
@@ -125,55 +124,56 @@ void LCD::LCD_Menu(int tidalVolume, int respRate, int IEratio, float PR)
     String d = String(PR);
 
     switch (printVarCounter)
-    {        
-        case 0:            
-            printVariable(80, 3, &wipeVar[printVarCounter], a, tidal_Vol);
-            printVarCounter++;
-            break;
-        case 1:                
-            printVariable(80, 20, &wipeVar[printVarCounter], b, resp_Rate);
-            printVarCounter++;
-            break;
-        case 2:                        
-            printVariable(89, 37, &wipeVar[printVarCounter], c, IE_ratio);
-            printVarCounter++;
-            break;
-        case 3:            
-            printVariable(80, 54, &wipeVar[printVarCounter], d, PR_Sensor);
-            printVarCounter=0;
-            break;
-        default:
-            printVarCounter=0;            
-            break;
+    {
+    case 0:
+        printVariable(80, 3, &wipeVar[printVarCounter], a, tidal_Vol);
+        printVarCounter++;
+        break;
+    case 1:
+        printVariable(80, 20, &wipeVar[printVarCounter], b, resp_Rate);
+        printVarCounter++;
+        break;
+    case 2:
+        printVariable(89, 37, &wipeVar[printVarCounter], c, IE_ratio);
+        printVarCounter++;
+        break;
+    case 3:
+        printVariable(80, 54, &wipeVar[printVarCounter], d, PR_Sensor);
+        printVarCounter = 0;
+        break;
+    default:
+        printVarCounter = 0;
+        break;
     }
-        
-            
-
 }
 
 void LCD::wipeVariable(int hpos, int vpos, int spaceQuantity)
-{ 
+{
     GLCD.CursorToXY(hpos, vpos);
-    for (int i=0; i<spaceQuantity; i++){
-         GLCD.print(" ");
+    for (int i = 0; i < spaceQuantity; i++)
+    {
+        GLCD.print(" ");
     }
     GLCD.CursorToXY(hpos, vpos);
 }
 
 String LCD::printVariable(int hpos, int vpos, bool *wipeWar, String toPrint, String *lastToPrint)
 {
-    if (toPrint != *lastToPrint){
-        if(*wipeVar){
+    if (toPrint != *lastToPrint)
+    {
+        if (*wipeVar)
+        {
             GLCD.CursorToXY(hpos, vpos);
             GLCD.print("     ");
         }
-        else{
+        else
+        {
             GLCD.CursorToXY(hpos, vpos);
             GLCD.Puts(toPrint);
-            *lastToPrint = toPrint;   
+            *lastToPrint = toPrint;
         }
-        *wipeVar = not(*wipeVar);         
-    }                
+        *wipeVar = not(*wipeVar);
+    }
     return toPrint;
 }
 

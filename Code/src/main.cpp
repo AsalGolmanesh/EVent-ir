@@ -53,24 +53,26 @@ void setup()
 
 	LCD::getInstance()->LCD_Logo();
 	LCD::getInstance()->LCD_Menu(respVolume->Potentiometer_Read(), respCycle->Potentiometer_Read(), IERatio->Potentiometer_Read(), 0 /*PR->Read_Pressure()*/);
-
 	delay(100);
 
 	pLED1->set_high();
 	pLED2->set_high();
 
-	digitalWrite(PinConfiguration::motorDriverOnOff, HIGH);
+	//digitalWrite(PinConfiguration::motorDriverOnOff, HIGH);
 	Motor::getInstance()->initEnc(PinConfiguration::motorEncoderPin, INPUT, enc_callback, FALLING);
 	Timer1Start(round(15625 * Global_SysConfig->timeStep) - 1);
 
+	alarm::getInstance()->alarmPin(PinConfiguration::buzzerPin, PinConfiguration::pLED2_pin);
 	motorController->updatePots(IERatio->Potentiometer_Read(), respCycle->Potentiometer_Read(), respVolume->Potentiometer_Read());
-	Error = new alarm(PinConfiguration::buzzerPin, PinConfiguration::pLED2_pin);
 }
 
 void loop()
 {
+
+	alarm::getInstance()->error(message);
+
 	LCD::getInstance()->LCD_Menu(respVolume->Potentiometer_Read(), respCycle->Potentiometer_Read(), IERatio->Potentiometer_Read(), 0 /*PR->Read_Pressure()*/);
-	//LCD::getInstance()->LCD_graph();
+	// //LCD::getInstance()->LCD_graph();
 
 	onButton->check();
 	applyButton->check();
@@ -96,6 +98,6 @@ void loop()
 		//motorController->updatePots(IERatio->Potentiometer_Read(), respCycle->Potentiometer_Read(), respVolume->Potentiometer_Read());
 		motorController->motorControllerHandler();
 	}
-	Error->error();
+
 	wdt_reset();
 }

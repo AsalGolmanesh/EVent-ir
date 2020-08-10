@@ -22,7 +22,7 @@
 #include <math.h>
 #include "DegreeTracker.h"
 #include "MotorController.h"
-#include "alarm.h"
+#include <alarm.h>
 
 /* Global Objects */
 SysConfig *Global_SysConfig;
@@ -47,6 +47,8 @@ PressureSensor *PR;
 
 MotorController *motorController;
 alarm *Error;
+
+char message[21] = "mini Vent";
 int table_RV[] = {300, 700};
 int table_RC[4];
 int table_IE[] = {1, 2, 3, 4};
