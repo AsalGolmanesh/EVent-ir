@@ -22,7 +22,11 @@
 #include <math.h>
 #include "DegreeTracker.h"
 #include "MotorController.h"
+<<<<<<< HEAD
 #include <alarm.h>
+=======
+#include "PressureSensor.h"
+>>>>>>> develope
 
 /* Global Objects */
 SysConfig *Global_SysConfig;
